@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicación Web</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="script.js"></script>
+</head>
+<body>
+    <div id="login-container">
+        <h2>Inicio de sesión</h2>
+        <form id="login-form">
+            <div>
+                <label for="username">Usuario:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Iniciar sesión</button>
+        </form>
+    </div>
+
+    <div id="app-container" style="display: none;">
+        <h2>Bienvenido a la aplicación</h2>
+        <div id="map" style="height: 400px; width: 100%;"></div>
+
+        <div id="menu">
+            <h3>Menú de Navegación</h3>
+            <ul>
+                <li><a href="#" onclick="showData('layer1')">Capa 1</a></li>
+                <li><a href="#" onclick="showData('layer2')">Capa 2</a></li>
+                <li><a href="#" onclick="logout()">Cerrar sesión</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Simula un usuario autenticado (para pruebas)
+        let isAuthenticated = false;
+
+        // Función de inicio de sesión
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Validar usuario y contraseña (esto es solo una simulación)
+            if (username === 'admin' && password === '123') {
+                isAuthenticated = true;
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+                initMap();
+            } else {
+                alert('Usuario o contraseña incorrectos');
+            }
+        });
+
+        // Inicialización del mapa
+        function initMap() {
+            const map = L.map('map').setView([-12.06745, -75.21062], 17);
+
+            // Cargar mapa base de OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+        }
+
+        // Función para mostrar datos según la capa seleccionada
+        function showData(layer) {
+            alert(`Mostrando datos para la ${layer}`);
+            // Aquí puedes agregar la lógica para mostrar los datos de la capa seleccionada
+        }
+
+        // Función para cerrar sesión
+        function logout() {
+            isAuthenticated = false;
+            document.getElementById('login-container').style.display = 'block';
+            document.getElementById('app-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
